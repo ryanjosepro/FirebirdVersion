@@ -86,7 +86,7 @@ begin
     ProgressBar.Position := 0;
     Screen.Cursor := crHourGlass;
 
-    PanelFirebirdVersion.Caption := 'Firebird ' + TUtils.GetFirebirdFileVersion(FileName, true);
+    PanelFirebirdVersion.Caption := 'Firebird ' + TUtils.GetFirebirdFileVersion(FileName);
 
     PanelFirebirdVersion.Font.Color := clHighlight;
   finally

@@ -50,7 +50,7 @@ type
 
     class function IsFileInUse(FileName: TFileName): Boolean; static;
 
-    class function GetFirebirdFileVersion(FileName: string; CreateFileCopy: boolean = false): string;
+    class function GetFirebirdFileVersion(FileName: string): string;
 
     class function OpenFileAll(out FileName: string): boolean;
     class function OpenFile(DisplayName, FileMask: string; IncludeAllFiles: boolean;
@@ -376,29 +376,28 @@ begin
 end;
 
 //Get Firebird file version by ods version on HEX of file
-class function TUtils.GetFirebirdFileVersion(FileName: string; CreateFileCopy: boolean = false): string;
+class function TUtils.GetFirebirdFileVersion(FileName: string): string;
 var
   Buff: array[0..64] of Byte;
   HexText: array[0..129] of Char;
-  NewFileName: string;
 begin
-  if CreateFileCopy then
-  begin
-    var TempDir := Temp + '\FirebirdVersion';
-    NewFileName := TempDir + '\' + ExtractFileName(FileName);
-
-    TDirectory.CreateDirectory(TempDir);
-
-    CopyFile(PWideChar(FileName), PWideChar(NewFileName), false);
-
-    Sleep(300);
-  end
-  else
-    NewFileName := FileName;
+//  if CreateFileCopy then
+//  begin
+//    var TempDir := Temp + '\FirebirdVersion';
+//    NewFileName := TempDir + '\' + ExtractFileName(FileName);
+//
+//    TDirectory.CreateDirectory(TempDir);
+//
+//    CopyFile(PWideChar(FileName), PWideChar(NewFileName), false);
+//
+//    Sleep(300);
+//  end
+//  else
+//    NewFileName := FileName;
 
   ///////////
 
-  var FileStream := TFileStream.Create(NewFileName, fmOpenRead or fmShareDenyWrite);
+  var FileStream := TFileStream.Create(FileName, fmShareDenyNone);
 
   try
     var CountRead := FileStream.Read(Buff, SizeOf(Buff));
